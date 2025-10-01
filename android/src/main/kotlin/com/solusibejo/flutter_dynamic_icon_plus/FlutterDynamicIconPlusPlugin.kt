@@ -54,9 +54,17 @@ class FlutterDynamicIconPlusPlugin: FlutterPlugin, MethodCallHandler, ActivityAw
           Log.d("setAlternateIconName", "Saved app icon status: $saved")
 
           if(saved == true){
-            if(containsOnBlacklist(brandsInString, manufacturesInString, modelsInString)){
+            Log.d("setAlternateIconName", "containsOnBlacklist : ${containsOnBlacklist(brandsInString, manufacturesInString, modelsInString)}")
+
+            if(true){
+              Log.d("setAlternateIconName", "containsOnBlacklist")
+
               if(activity != null){
+                Log.d("setAlternateIconName", "activity")
+
                 if(iconName != null){
+                  Log.d("setAlternateIconName", "iconName")
+
                   ComponentUtil.changeAppIcon(
                     activity!!,
                     activity!!.packageManager,
@@ -68,8 +76,14 @@ class FlutterDynamicIconPlusPlugin: FlutterPlugin, MethodCallHandler, ActivityAw
               }
             }
             else {
-              val flutterDynamicIconPlusService = Intent(activity, FlutterDynamicIconPlusService::class.java)
-              activity?.startService(flutterDynamicIconPlusService)
+              val flutterDynamicIconPlusService = Intent(activity, com.solusibejo.flutter_dynamic_icon_plus.FlutterDynamicIconPlusService::class.java)
+              // activity?.startService(flutterDynamicIconPlusService)
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Android 8+ requires foreground service
+                    activity!!.startForegroundService(flutterDynamicIconPlusService)
+                } else {
+                    activity!!.startService(flutterDynamicIconPlusService)
+                }
             }
 
             result.success(true)

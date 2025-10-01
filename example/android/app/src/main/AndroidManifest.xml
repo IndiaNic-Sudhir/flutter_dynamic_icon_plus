@@ -1,12 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <application
         android:label="flutter_dynamic_icon_plus_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-
-        <service
-            android:name="com.solusibejo.flutter_dynamic_icon_plus.FlutterDynamicIconPlusService"
-            android:stopWithTask="false"/>
 
         <activity
             android:name=".MainActivity"
@@ -30,6 +27,23 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+      <activity-alias
+            android:name=".default"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. After that, this theme continues
+                 to determine the Window background behind the Flutter UI. -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
 
         <activity-alias
             android:name=".chills"
@@ -86,5 +100,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+              <!-- <meta-data
+                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+                android:resource="@drawable/launch_background"
+                /> -->
     </application>
 </manifest>
