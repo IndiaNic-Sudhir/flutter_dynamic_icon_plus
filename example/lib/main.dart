@@ -277,7 +277,7 @@ class MyAppState extends State<MyApp> {
                 try {
                   if (await FlutterDynamicIconPlus.supportsAlternateIcons) {
                     await FlutterDynamicIconPlus.setAlternateIconName(
-                      iconName: null,
+                      iconName: Platform.isAndroid ? "default" : null,
                       blacklistBrands: ['Redmi'],
                       blacklistManufactures: ['Xiaomi'],
                       blacklistModels: ['Redmi 200A'],

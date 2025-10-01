@@ -159,11 +159,32 @@ object ComponentUtil {
             Log.d("changeAppIcon", "Currently Enabled: $currentlyEnabled")
             Log.d("changeAppIcon", "Will Enabled: $name")
 
-            if(name != null){
+            val aliasName = if (name!!.startsWith(packageName)) {
+                name
+            } else {
+                "$packageName.$name"
+            }
+
+            if(aliasName != null){
                 if(name.isNotEmpty()){
-                    if(currentlyEnabled?.name != name){
-                        setupIcon(context, packageManager, packageName, name, currentlyEnabled?.name)
-                    }
+                    if(currentlyEnabled?.name != aliasName!!){
+
+                        setupIcon(context, packageManager, packageName, aliasName!!, currentlyEnabled?.name)
+
+//                        // Restart app to apply new icon
+//                        val intent = context.packageManager.getLaunchIntentForPackage(packageName)
+//                        intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                        context.startActivity(intent)
+
+                        // Kill the current process
+                        // Kill app with all tasks
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+                            activityManager.appTasks.forEach { it.finishAndRemoveTask() }
+                        }
+
+                        // Kill current process
+                        android.os.Process.killProcess(android.os.Process.myPid())                    }
                 }
             }
         }
